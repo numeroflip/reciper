@@ -1,34 +1,28 @@
 {
   "name": "forkify",
   "version": "1.0.0",
-  "description": "A plain HTML, CSS, JavaScript recipe search engine.",
+  "description": "forkify project",
   "main": "index.js",
-  "dependencies": {
-    "axios": "^0.19.1",
-    "babel-polyfill": "^6.26.0"
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
-    "html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^2.0.12",
-    "webpack-dev-server": "^3.1.14"
-  },
   "scripts": {
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --open"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/numeroflip/forkify.git"
-  },
-  "author": "",
+  "author": "Aron Berényi",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/numeroflip/forkify/issues"
+  "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "babel-loader": "^8.0.6",
+    "html-webpack-plugin": "^3.2.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
   },
-  "homepage": "https://github.com/numeroflip/forkify#readme"
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.8.0",
+    "@babel/runtime": "^7.8.0",
+    "axios": "^0.19.1",
+    "core-js": "3"
+  }
 }
