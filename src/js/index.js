@@ -1,12 +1,12 @@
 // https://forkify-api.herokuapp.com/api/search
 
-import axios from "axios";
-import Search from './models/Search'
 import { elements, renderLoader, clearLoader }  from './views/base';
-import * as searchView from './views/searchView';
-import * as recipeView from './views/recipeView';
+import Search from './models/Search'
 import Recipe from './models/Recipe'
 import List from './models/List'
+import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 
 /* Global state of the app 
     -Search object
@@ -15,9 +15,10 @@ import List from './models/List'
     -Liked recipes
 */
 const state = {};
+window.state = state;
 
 /*-----------------------------------------------
-----------------SEARCH CONTROLLER----------------
+----------------SEARCH CONTROLLER-------------------------------
 -------------------------------------------------
 */
 
@@ -70,7 +71,7 @@ elements.searchResPages.addEventListener('click', e => {
 
 
 /*-----------------------------------------------
-----------------RECIPE CONTROLLER----------------
+----------------RECIPE CONTROLLER-----------------------------
 -------------------------------------------------
 */
 
@@ -86,10 +87,7 @@ const controlRecipe = async () => {
         //  Highlight selected search item
         if (state.search)  searchView.highlightSelected(id);
         // Create new recipe object
-        state.recipe = new Recipe(id);
-        // TESTING
-        window.r = state.recipe;
-        
+        state.recipe = new Recipe(id);        
         try {
         // Get recipe data  
             await state.recipe.getRecipe();
@@ -107,22 +105,58 @@ const controlRecipe = async () => {
     }
 };
 
-// window.addEventListener('hashchange', controlRecipe);
-// window.addEventListener('load', controlRecipe);
-
-['hashchange', 'load'].forEach(e => window.addEventListener(e, controlRecipe));
-
 // Handling recipe button clicks
 elements.recipe.addEventListener('click', e => {
-    if(e.target.matches('.btn-decrease, .btn-decrease *')) {
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) {
         // Decrease button clicked 
-        if (state.recipe.servings > 1) state.recipe.updateServings('dec') 
-    }else if(e.target.matches('.btn-increase, .btn-increase *')) {
-        // increase button clicked  
+        if (state.recipe.servings > 1) {
+            state.recipe.updateServings('dec') 
+        }
+    } else if (e.target.matches('.btn-increase, .btn-increase *')) {
+    // increase button clicked  
         state.recipe.updateServings('inc');  
+    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+        controlList();
     }
     recipeView.exportServingsIngredients(state.recipe);
     console.log(state.recipe);
 });
 
-window.l = new List();
+['hashchange', 'load'].forEach(e => window.addEventListener(e, controlRecipe));
+
+
+
+/*-----------------------------------------------
+----------------LIST CONTROLLER-----------------------------
+-------------------------------------------------*/
+
+const controlList = () => {
+    // Create a list if there is none yet
+    if(!state.list) {
+        state.list = new List();
+    }
+
+    // Add each ingredients to the list and the UI
+    state.recipe.ingredients.forEach(el => {
+        state.list.addItem(el.count, el.unit, el.ingredient);
+        listView.renderItem(el);
+    })
+
+};
+//  Handling delete and update list item events
+elements.shopping.addEventListener('click', e => {
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+    
+    // Handle the delete button
+    if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+        // Delete from state
+        state.list.deleteItem(id);
+        // Delete from UI
+        listView.deleteItem(id);
+        // Handle the count
+    } else if (e.target.matches('.shopping__count-value')) { 
+        const val = parseFloat(e.target.value);
+        state.list.updateCount(id, val);
+    }
+});
+
