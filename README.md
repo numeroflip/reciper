@@ -1,4 +1,4 @@
-# forkify
+# Reciper
 A recipe search engine. It lets you make a shopping list based on servings. It let's you like a recipe and navigate to the site with a full description.
 
 ## Preview
