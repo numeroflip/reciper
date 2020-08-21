@@ -213,3 +213,9 @@ window.addEventListener('load', () => {
     state.likes.likes.forEach(like => likesView.renderLike(like));
 
 });
+
+function handleMobile() {
+    if (window.innerWidth < '630') {alert('FUCK')}
+}
+
+window.addEventListener('resize', handleMobile) 
