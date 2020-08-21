@@ -4,7 +4,7 @@ A recipe search engine. It lets you make a shopping list based on servings. It l
 ## Preview
 ![](./pizza-rev.gif)
 
-[Live Demo](https://numeroflip.github.io/forkify/#35477) 
+[Live Demo](https://numeroflip.github.io/reciper/) 
 
 
 ## Technology
